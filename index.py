@@ -22,13 +22,10 @@ async def get_channels():
     return channels
 
 def get_channel_id(channels, name):
-    # print(channels)
     for channel in channels:
-        print(channel)
         if name == channel['channel_name']:
             return channel['channel_id']
-    # else:
-    #     return None
+    return None
 
 async def channel_messages(id):
     async for message in client.iter_messages(id):
