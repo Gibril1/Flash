@@ -1,12 +1,7 @@
-import os
 import asyncio
 from telethon import TelegramClient
-from dotenv import load_dotenv
-load_dotenv()
+from constants import api_hash, api_id
 
-
-api_id = os.getenv('API_ID')
-api_hash = os.getenv('API_HASH')
 
 client = TelegramClient('me', api_id, api_hash)
 
