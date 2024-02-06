@@ -1,4 +1,5 @@
-venv/
+.venv/
 .env
 me.session
 *.json
+__pycache__/

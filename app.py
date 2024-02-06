@@ -1,6 +1,10 @@
-import asyncio, json
+import asyncio, json, os
 from telethon import TelegramClient
-from constants import api_hash, api_id
+from dotenv import load_dotenv
+load_dotenv()
+
+api_id = os.getenv('API_ID')
+api_hash = os.getenv('API_HASH')
 
 # Class Implementation
 class TelegramReader:
