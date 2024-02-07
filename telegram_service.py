@@ -1,39 +1,39 @@
 import os
 from dotenv import load_dotenv
-from telethon import TelegramClient
+from telethon import TelegramClient, events
+from openai_service import OpenAIService
 load_dotenv()
 
 api_id = os.getenv('API_ID')
 api_hash = os.getenv('API_HASH')
 chat_id = os.getenv('CHAT_ID')
+bot_token = os.getenv('BOT_TOKEN')
 client = TelegramClient('me', api_id, api_hash)
 
-from openai_service import OpenAIService
 
 ai_service = OpenAIService()
 
-class TelegramService:
-    def __init__(self) -> None:
-        print('Telegram service')
-        self.api_id = api_id
-        self.api_hash = api_hash
-        self.client = client
+
 
     
-    async def send_message_to_channel(self, message: str):
-        message = await self.client.send_message('FlashGPT_bot', message)
+# Event handler for incoming messages
+@client.on(events.NewMessage)
+async def handle_message(event):
+    if event.is_private:  # Respond only to private messages
+        
+        user_input = event.message.text
+        # Process user input and generate response
+        response = await ai_service.prompt(user_input)
+        # Send response back to the user
+        await event.respond(response)
 
-        return message
-    
-    async def reply_messages(self, message: str):
-        sending_message = await self.send_message_to_channel(message)
+# Start the Telethon client
+client.start(bot_token=bot_token)
 
-        ai_response = await ai_service.prompt(sending_message.raw_text)
-
-        # await sending_message.respond(ai_response)
-        await self.client.reply_messages(chat_id, ai_response)
-
-       
+# Run the client
+client.run_until_disconnected()
+ 
+      
 
 
     

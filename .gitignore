@@ -3,3 +3,4 @@
 me.session
 *.json
 __pycache__/
+me.session-journal
